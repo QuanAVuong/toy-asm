@@ -1,0 +1,30 @@
+
+    lis $1, 0x09    : $1 <-  9
+    add $A, $1, $0  : 
+    sys 0x4         : 
+
+    lis $2, 0xFFFC  : $2 <- -4
+    add $A, $2, $0  : 
+    sys 0x4         : 
+
+    add $3, $1, $2  : $3 <- $1 + $2 
+    add $A, $3, $0  : 
+    sys 0x4         : 
+
+    sub $4, $1, $2  : $4 <- $1 - $2
+    add $A, $4, $0  : 
+    sys 0x4         : 
+
+    and $5, $1, $2  : $5 <- $1 & $2
+    add $A, $5, $0  : 
+    sys 0x4         : 
+
+    nor $6, $1, $2  : $6 <- $1 nor $2
+    add $A, $6, $0  : 
+    sys 0x4         : 
+
+    sys 0x2         : $A <- read number 
+    sys 0x4         : $A -> write number
+    
+    sys 0x0         : exit
+

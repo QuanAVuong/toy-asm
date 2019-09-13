@@ -320,3 +320,10 @@ hs_err_pid*
 ### Java-Web ###
 ## ignoring target file
 target/
+
+
+### Assembler ###
+*.exe
+*.o
+*.obj
+*.bc

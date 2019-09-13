@@ -1,0 +1,40 @@
+  lis $1, 0x01
+      
+      add $A, $1, $0  : line 1: remove colon onwards -> fine; leave colon: break; without this line, it'll print out 0
+ sys 0x4         : needs at least 1 space? => 1
+
+
+    sys 0x2: colon position after sys call no matter?; ok to leave colon without comments?
+    sys 0x4: sys 2 -> $A -> print
+    
+    lis $2, 0x02    : $2 <- 2; what if we remove 'add $A...'
+    sys 0x4         : this prints line7 'sys 0x2', or $A value
+    add $A, $2, $0  : now storing $2 in $A
+    sys 0x4         : => 2
+
+    lis $3, 0x03
+    add $B, $3, $0  : what if $B instead of $A?    
+    sys 0x4         : prints $A => 2
+    add $A, $3, $0
+    sys 0x4         : => 3
+
+
+    add $4, $1, $2  : $4 <- $1 + $2
+    add $A, $4, $0  : 
+    sys 0x4         : $A = $5 + $0 = $1 + $2 = 1 + 2 = 3
+
+    sub $5, $1, $2  : $5 <- $1 - $2
+    add $A, $5, $0  : 
+    sys 0x4         : $A = $5 + $0 = $1 - $2 = 1 - 2 = -1
+
+    and $6, $1, $2  : $6 <- $1 & $2
+    add $A, $6, $0  : 
+    sys 0x4         : $A = $6 + $0 = $1 & $2 = 1 AND 2 = 0001 & 0010 => 0
+
+    nor $7, $1, $2  : $7 <- $1 nor $2
+    add $A, $7, $0  : 
+    sys 0x4         : $A = $6 + $0 = $1 & $2 = 1 NOR 2 = 0001 NOR 0010 => -4??
+
+
+
+    sys 0x0         : exit

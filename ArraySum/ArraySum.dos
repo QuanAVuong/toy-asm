@@ -1,0 +1,31 @@
+SUM		 : sum the elements of an array X
+		 : $1 ≡ 1, $D = @X, $C = |X|, $F = (return address)
+		 
+		 : register assignments:
+		 :		 $1 – 1      (constant)
+		 :		 $2 - j      (loop index)
+		 : 		 $3 - @X[j]
+		 :		 $A -  X[j]  (allows convenient write for debugging
+		 :		 $C - |X|    (size of X; also X[-1])
+		 :		 $D - @X     (also @X[0]
+		 :       $E          (running sum ≡ sum (X[j] : 0 <= j)
+		 :       $F          (return address)
+
+ 	 mov	 $E, $0    	: #X[0..0)
+         mov	 $2, $0    	:  j = 0
+
+Loop                       	: $E = sum (X[i] : 0 <= i < j)
+         cmp	 $2, $C	   	:  j ? |X|
+         buge	      @Done	:  exit loop  if j >= |X|
+         	               	:  j < |X|
+         add	 $3, $D, $2	: $3 = @X[j]
+         l  	 $A, $3    	: $A =  X[j]
+:        write				: print X[j]
+         add	 $E, $E, $A	: $E = sum (X[i] : 0 <= i < j+1)
+         add	 $2, $2, $1	:  j = j+1
+         	               	: $E = sum (X[i] : 0 <= i < j)
+         b	      @Loop	:  repeat Loop
+         
+Done
+		 : $1 ≡ 1, $D = @X, $C = |X|, $E = sum (X[i] : 0 <= i < |X|)
+         ret               	: #X[0..n)   return to caller

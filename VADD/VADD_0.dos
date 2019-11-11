@@ -1,0 +1,33 @@
+VADD_0      :    does nothing                                  (minimal precursor to the assigned VADD subprogram) 
+
+: This subprogram is the first of a sequence of suggested stepping stones to the assigned VADD subprogram
+:
+: VADD_0    :    does nothing                                  (minimal precursor to the assigned VADD subprogram) 
+: VADD_1    :    prints  Z[i]                for 0 <= i < n    (copied  from VectorAdditionDriver.toy) 
+: VADD_2    :    prints  Y[i]                for 0 <= i < n    (adapted from VADD_1) 
+: VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_2) 
+: VADD      :    assigns X[i] + Y[i] to Z[i] for 0 <= i < n    (the assigned subprogram, adapted from VADD_3) 
+
+: VADD subprogram interface
+:
+: label VADD
+:
+: on entry
+:	 $1 = 1 (constant)
+:	 $B = n = |Z| = |Y| = |X|
+:	 $C = @X
+:	 $D = @Y
+:	 $E = @Z
+:	 $F = <return address>
+:
+: on exit
+:	 $Z[i] = X[i] + Y[i] : 0 <= i < n	 otherwise, memory is unchanged
+:	 registers: $0, $1, $B, $C, $D, $E and $F have not been changed
+:	 the values in registers: $2 .. $A may have been changed
+
+: Note
+:       This implementation assumes the "on entry" garantees of this interface, 
+:       but does NOT fulfill its "on exit" requirements!
+
+VADD
+         ret	            	: return to caller [	blc	ALL, $F, $0]

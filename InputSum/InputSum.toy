@@ -1,0 +1,25 @@
+    sys 0x2         : $A <- first input; ex: 50
+    add $1, $A, $0  : $1 <- $A
+    sys 0x4         : prints A
+
+    sys 0x2         : $A <- second input; ex: 70
+    add $2, $A, $0  : $2 <- $A
+    sys 0x4
+
+    sys 0x2         : $A <- third input; ex: -20
+    add $3, $A, $0  : $3 <- $A
+    sys 0x4
+
+    add $4, $1, $2  : $4 <- $1 + $2 = 50 + 70 = 120
+    add $5, $4, $3  : $5 <- $4 + $3 = 120 + (-20) = 100
+    add $A, $5, $0  : $A <- $5
+    sys 0x4         : prints $1 + $2 + $3 => 100
+
+    lis $6, 0x14    : $6 <- 0x14 (base 16)
+    add $A, $6, $0
+    sys 0x4         : => 20 (base 10)
+
+    sub $A, $5, $6  : $A <- $5 - 20 = 100 - 20
+    sys 0x4         : => 80
+
+    sys 0x0         : exit

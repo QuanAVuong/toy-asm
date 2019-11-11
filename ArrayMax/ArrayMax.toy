@@ -1,0 +1,34 @@
+MAX		 : maximum value of the (signed) elements of an array X
+    	 : $1 ≡ 1, $D = @X, $C = |X|, $F = (return address)
+		 
+    	 : register assignments:
+    	 :	 $1 – 1      (constant)
+    	 :	 $2 - j      (loop index)
+    	 : 	 $3 - @X[j]
+    	 :	 $A -  X[j]  (allows convenient write for debugging
+    	 :	 $C - |X|    (size of X; also X[-1])
+    	 :	 $D - @X     (also @X[0]
+    	 :	 $E          (running max ≡ max (X[j] : 0 <= j)
+    	 :	 $F          (return address)
+
+    	 l  	 $E, $D     	: $E = A[0] = max (X[i] : 0 <= i < 1)
+    	 mov	 $2, $1        	:  j = 1
+
+Loop                           	: $E = max (X[i] : 0 <= i < j)
+    	 cmp	 $2, $C     	:  j ? |X|
+    	 buge	      @Done 	:  exit loop  if j >= |X|
+         	           	    	:  j < |X|
+    	 add	 $3, $D, $2 	: $3 = @X[j]
+    	 l  	 $A, $3     	: $A =  X[j]
+:   	 write	            	: print X[j]
+	 
+    	 cmp	 $A, $E     	: A[j] ? max (X[i] : 0 <= i < j)
+    	 bsle	      @Skip 	: skip unless A[j] is bigger
+    	 mov 	 $E, $A      	: $E = max (X[i] : 0 <= i < j+1)
+Skip	 add	 $2, $2, $1 	:  j = j+1
+    	     	            	: $E = max (X[i] : 0 <= i < j)
+    	 b   	      @Loop 	:  repeat Loop
+         
+Done
+    	 : $1 ≡ 1, $D = @X, $C = |X|, $E = max (X[i] : 0 <= i < |X|)
+    	 ret 	            	:  return to caller [blc	ALL, $F, $0]

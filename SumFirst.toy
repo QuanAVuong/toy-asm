@@ -1,0 +1,12 @@
+		lis		 $1, 0x1 	:  initialize $1	= 1
+		mov		 $2, $0  	:  initialize sum	= 0
+		mov		 $3, $0	    :  initialize index	= 0
+		read				:  initialize limit	= n 
+ 		cmp		     $3, $A	:  index ?>=? limit 
+		buge		      3	:  LI(index) or branch
+		add		 $3, $3, $1	:  index += 1
+		add		 $2, $2, $3	:  sum   += index
+		b			     -5	:  repeat loop
+		mov		 $A, $2 	:  $A ← sum
+		write				:  write sum
+		exit	          	:  exit

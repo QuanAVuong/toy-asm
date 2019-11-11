@@ -1,0 +1,16 @@
+: call subprogram MAX to compute maximum (A[i] : 0 <= i < |A|)
+
+         lis	 $1,       1 	: $1 = 1
+         lis	 $D,      @A 	: 
+         lih	 $D,      @A 	: $D = @A
+         sub	 $C, $D,  $1 	: $C = @A[-1] = @|A|
+         l  	 $C, $C      	: $C = |A|
+         lis	 $F,    @MAX	: 
+         lih	 $F,    @MAX	: $F = @MAX
+         cal			     	: call MAX [$F = return address]
+    	 : $1 ≡ 1, $D = @A, $C = |A|, $F = return address
+
+    	 : $1 ≡ 1, $D = @A, $C = |A|, $E = max (A[i] : 0 <= i < |A|)
+         mov	 $A, $E     	: prepare to write the max
+         write	            	: write the max
+         exit	            	: terminate execution

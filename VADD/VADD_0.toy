@@ -1,0 +1,6 @@
+: minimal precursor to the assigned VADD.toy subprogram
+: does nothing
+:
+VADD
+
+         ret	            	: return to caller [	blc	ALL, $F, $F]

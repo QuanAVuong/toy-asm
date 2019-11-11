@@ -1,0 +1,86 @@
+: Vector Addition (HW 11) driver
+:      calls subprogram VADD to compute the vector sum (Z[i] = X[i] + Y[i] : 0 <= i < |Z|)
+:      then prints the elements of Z
+
+: homework command line (linux, MAC OS X, other Unix)
+:
+:         java -jar Toy.jar VectorAdditionDriver.toy VADD.toy >> VADD.out
+:
+: homework command line (windows)
+:
+:         java -jar Toy.jar VectorAdditionDriver.dos VADD.dos >> VADD.out
+:
+: submit: your VADD.toy (or VADD.dos) and VADD.out
+:         if your subprogram does not work correctly, so indicate
+
+: VADD subprogram interface
+:
+: label VADD
+:
+: on entry
+:	 $1 = 1 (constant)
+:	 $B = n = |Z| = |Y| = |X|
+:	 $C = @X
+:	 $D = @Y
+:	 $E = @Z
+:	 $F = <return address>
+:
+: on exit
+:	 $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
+:	 registers: $0, $1, $B, $C, $D, $E and $F have not been changed
+:	 the values in registers: $2 .. $A may have been changed
+
+: driver register usage (subprogram can be different)
+: 	 $2 =    j  (loop index)
+:	 $3 = @Z[j]
+:	 $A =  Z[j]
+
+         lis	 $1,       1 	: $1 = 1
+         lis	 $E,      @Z 	: 
+         lih	 $E,      @Z 	: $E = @Z
+         lis	 $D,      @Y 	: 
+         lih	 $D,      @Y 	: $D = @Y
+         lis	 $C,      @X 	: 
+         lih	 $C,      @X 	: $C = @X
+         sub	 $B, $E,  $1 	: $B = @Z[-1] = @|Z|
+         l  	 $B, $B      	: $B = |Z| = |Y| = |X| = n (by assumption)
+         lis	 $F,    @VADD	: 
+         lih	 $F,    @VADD	: $F = @VADD
+ 		 cal            : call VADD [	blc	ALL, $F, $F : $F = return address]
+
+: print array Z
+
+         mov	 $2, $0	      	: j = $2 = 0
+LOOP
+         cmp	     $2, $B	: j ? n
+         buge         @DONE	:
+	       		    	: j < n
+         add	 $3, $E, $2 	: $3 = @Z[j]
+         l   	 $A, $3     	: $A =  Z[j]
+         write	            	: print Z[j] in command window
+         add	 $2, $2, $1 	: j <- j + 1
+         b	      @LOOP 	: repeat loop body
+DONE
+         exit	            	: terminate execution
+
+: data
+                                : array  X
+	 4			:  |X|
+X	 7			: X[0]
+	-3			: X[1]
+	12			: X[2]
+	-1			: X[3]
+:
+                                : array  Y
+	 4			:  |Y|
+Y	 0			: Y[0]
+	10			: Y[1]
+	-5			: Y[2]
+	 8			: Y[3]
+:
+                                : array  Z
+	 4			:  |Z|
+Z	 0			: Z[0]
+	 1			: Z[1]
+	 2			: Z[2]
+	 3			: Z[3]

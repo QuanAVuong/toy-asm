@@ -1,0 +1,16 @@
+: call subprogram EVEN to compute even (A[i] : 0 <= i < |A|)
+
+         lis	 $1,       1 	: $1 = 1
+         lis	 $D,      @A 	: 
+         lih	 $D,      @A 	: $D = @A
+         sub	 $C, $D,  $1 	: $C = @A[-1] = @|A|
+         l  	 $C, $C      	: $C = |A|
+         lis	 $F,    @EVEN	: 
+         lih	 $F,    @EVEN	: $F = @EVEN
+         cal			     	: call EVEN [$F = return address]
+    	 : $1 ≡ 1, $D = @A, $C = |A|, $F = return address
+
+    	 : $1 ≡ 1, $D = @A, $C = |A|, $E = even (A[i] : 0 <= i < |A|)
+         mov	 $A, $E     	: prepare to write the even
+         write	            	: write the even
+         exit	            	: terminate execution

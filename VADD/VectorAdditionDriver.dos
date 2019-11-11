@@ -47,20 +47,7 @@
          lis	 $F,    @VADD	: 
          lih	 $F,    @VADD	: $F = @VADD
  		 cal            : call VADD [	blc	ALL, $F, $F : $F = return address]
-
-: print array Z
-
-         mov	 $2, $0	      	: j = $2 = 0
-LOOP
-         cmp	     $2, $B	: j ? n
-         buge         @DONE	:
-	       		    	: j < n
-         add	 $3, $E, $2 	: $3 = @Z[j]
-         l   	 $A, $3     	: $A =  Z[j]
-         write	            	: print Z[j] in command window
-         add	 $2, $2, $1 	: j <- j + 1
-         b	      @LOOP 	: repeat loop body
-DONE
+          
          exit	            	: terminate execution
 
 : data

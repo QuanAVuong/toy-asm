@@ -1,4 +1,4 @@
-VADD_1      :    prints  Z[i]                for 0 <= i < n    (copied  from VectorAdditionDriver.toy)
+VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_2)
 
 : This subprogram is the second of a sequence of suggested stepping stones to the assigned VADD subprogram
 :
@@ -43,6 +43,15 @@ LOOP
          add	 $3, $E, $2 	: $3 = @Z[j]
          l   	 $A, $3     	: $A =  Z[j]
          write	            	: print Z[j] in command window
+
+         add	 $3, $D, $2 	: $3 = @Y[j]
+         l   	 $A, $3     	: $A =  Y[j]
+         write	            	: print Y[j] in command window
+
+         add	 $3, $C, $2 	: $3 = @X[j]
+         l   	 $A, $3     	: $A =  X[j]
+         write	            	: print X[j] in command window
+
          add	 $2, $2, $1 	: j <- j + 1
          b	      @LOOP 	: repeat loop body        
 DONE

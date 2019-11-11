@@ -30,4 +30,4 @@ VADD_0      :    does nothing                                  (minimal precurso
 :       but does NOT fulfill its "on exit" requirements!
 
 VADD
-         ret	            	: return to caller [	blc	ALL, $F, $0]
+        ret	            	: return to caller [	blc	ALL, $F, $0]

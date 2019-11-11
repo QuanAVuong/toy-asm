@@ -35,20 +35,20 @@
 :	 $3 = @Z[j]
 :	 $A =  Z[j]
 
-         lis	 $1,       1 	: $1 = 1
-         lis	 $E,      @Z 	: 
-         lih	 $E,      @Z 	: $E = @Z
-         lis	 $D,      @Y 	: 
-         lih	 $D,      @Y 	: $D = @Y
-         lis	 $C,      @X 	: 
-         lih	 $C,      @X 	: $C = @X
-         sub	 $B, $E,  $1 	: $B = @Z[-1] = @|Z|
-         l  	 $B, $B      	: $B = |Z| = |Y| = |X| = n (by assumption)
-         lis	 $F,    @VADD	: 
-         lih	 $F,    @VADD	: $F = @VADD
- 		 cal            : call VADD [	blc	ALL, $F, $F : $F = return address]
-          
-         exit	            	: terminate execution
+        lis	 $1,       1 	: $1 = 1
+        lis	 $E,      @Z 	: 
+        lih	 $E,      @Z 	: $E = @Z
+        lis	 $D,      @Y 	: 
+        lih	 $D,      @Y 	: $D = @Y
+        lis	 $C,      @X 	: 
+        lih	 $C,      @X 	: $C = @X
+        sub	 $B, $E,  $1 	: $B = @Z[-1] = @|Z|
+        l  	 $B, $B      	: $B = |Z| = |Y| = |X| = n (by assumption)
+        lis	 $F,    @VADD	: 
+        lih	 $F,    @VADD	: $F = @VADD
+        cal            : call VADD [	blc	ALL, $F, $F : $F = return address]
+        
+        exit	            	: terminate execution
 
 : data
                                 : array  X

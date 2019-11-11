@@ -1,48 +1,23 @@
-VADD_1      :    prints  Z[i]                for 0 <= i < n    (copied  from VectorAdditionDriver.toy)
-
-: This subprogram is the second of a sequence of suggested stepping stones to the assigned VADD subprogram
-:
-: VADD_0    :    does nothing                                  (minimal precursor to the assigned VADD subprogram) 
-: VADD_1    :    prints  Z[i]                for 0 <= i < n    (copied  from VectorAdditionDriver.toy) 
-: VADD_2    :    prints  Y[i]                for 0 <= i < n    (adapted from VADD_1) 
-: VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_2) 
-: VADD      :    assigns X[i] + Y[i] to Z[i] for 0 <= i < n    (the assigned subprogram, adapted from VADD_3) 
-
-: VADD subprogram interface
-:
-: label VADD
-:
-: on entry
-:	 $1 = 1 (constant)
-:	 $B = n = |Z| = |Y| = |X|
-:	 $C = @X
-:	 $D = @Y
-:	 $E = @Z
-:	 $F = <return address>
-:
-: on exit
-:	 $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
-:	 registers: $0, $1, $B, $C, $D, $E and $F have not been changed
-:	 the values in registers: $2 .. $A may have been changed
-
-: Note
-:       This implementation assumes the "on entry" garantees of this interface, 
-:       but does NOT fulfill its "on exit" requirements!
-
-: subprogram register usage
-: 	 $2 =    j  (loop index)
-:	 $3 = @Z[j]
-:	 $A =  Z[j]
-
 VADD
          mov	 $2, $0	      	: j = $2 = 0
 LOOP
          cmp	     $2, $B	: j ? n
          buge         @DONE	:
 	       		    	: j < n
-         add	 $3, $E, $2 	: $3 = @Z[j]
-         l   	 $A, $3     	: $A =  Z[j]
-         write	            	: print Z[j] in command window
+
+         add	 $3, $D, $2 	: $3 = @Y[j]
+         add	 $4, $C, $2 	: $4 = @X[j]         
+         l   	 $5, $3     	: $5 =  Y[j]
+         l   	 $6, $4     	: $6 =  X[j]         
+         add	 $7, $6, $5 	: $7 = X[i] + Y[i]
+         write	            	: print Y[j] in command window
+
+
+
+         write	            	: print X[j] in command window
+
+         asdf
+
          add	 $2, $2, $1 	: j <- j + 1
          b	      @LOOP 	: repeat loop body        
 DONE

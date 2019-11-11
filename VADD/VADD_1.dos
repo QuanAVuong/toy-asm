@@ -35,15 +35,15 @@ VADD_1      :    prints  Z[i]                for 0 <= i < n    (copied  from Vec
 :	 $A =  Z[j]
 
 VADD
-         mov	 $2, $0	      	: j = $2 = 0
+        mov	 $2, $0	      	: j = $2 = 0
 LOOP
-         cmp	     $2, $B	: j ? n
-         buge         @DONE	:
-	       		    	: j < n
-         add	 $3, $E, $2 	: $3 = @Z[j]
-         l   	 $A, $3     	: $A =  Z[j]
-         write	            	: print Z[j] in command window
-         add	 $2, $2, $1 	: j <- j + 1
-         b	      @LOOP 	: repeat loop body        
+        cmp	     $2, $B	: j ? n
+        buge         @DONE	:
+                    : j < n
+        add	 $3, $E, $2 	: $3 = @Z[j]
+        l   	 $A, $3     	: $A =  Z[j]
+        write	            	: print Z[j] in command window
+        add	 $2, $2, $1 	: j <- j + 1
+        b	      @LOOP 	: repeat loop body        
 DONE
-         ret	            	: return to caller [	blc	ALL, $F, $0]
+        ret	            	: return to caller [	blc	ALL, $F, $0]

@@ -26,7 +26,7 @@ VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_
 :	 the values in registers: $2 .. $A may have been changed
 
 : Note
-:       This implementation assumes the "on entry" garantees of this interface, 
+:       This implementation assumes the "on entry" guarantees of this interface, 
 :       but does NOT fulfill its "on exit" requirements!
 
 : subprogram register usage

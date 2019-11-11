@@ -1,0 +1,193 @@
+......... Toy [v 0.2 10/5/19] command line: -run VADD/VectorAdditionDriver.dos VADD/VADD.dos
+......... Assembling file: VADD/VectorAdditionDriver.dos
+.........    0                                              : Vector Addition (HW 11) driver
+.........    1                                              : calls subprogram VADD to compute the vector sum (Z[i] = X[i] + Y[i] : 0 <= i < |Z|)
+.........    2                                              : then prints the elements of Z
+.........    3                                             
+.........    4                                              : homework command line (linux, MAC OS X, other Unix)
+.........    5                                              : 
+.........    6                                              : java -jar Toy.jar VectorAdditionDriver.toy VADD.toy >> VADD.out
+.........    7                                              : 
+.........    8                                              : homework command line (windows)
+.........    9                                              : 
+.........   10                                              : java -jar Toy.jar VectorAdditionDriver.dos VADD.dos >> VADD.out
+.........   11                                              : 
+.........   12                                              : submit: your VADD.toy (or VADD.dos) and VADD.out
+.........   13                                              : if your subprogram does not work correctly, so indicate
+.........   14                                             
+.........   15                                              : VADD subprogram interface
+.........   16                                              : 
+.........   17                                              : label VADD
+.........   18                                              : 
+.........   19                                              : on entry
+.........   20                                              : $1 = 1 (constant)
+.........   21                                              : $B = n = |Z| = |Y| = |X|
+.........   22                                              : $C = @X
+.........   23                                              : $D = @Y
+.........   24                                              : $E = @Z
+.........   25                                              : $F = <return address>
+.........   26                                              : 
+.........   27                                              : on exit
+.........   28                                              : $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
+.........   29                                              : registers: $0, $1, $B, $C, $D, $E and $F have not been changed
+.........   30                                              : the values in registers: $2 .. $A may have been changed
+.........   31                                             
+.........   32                                              : driver register usage (subprogram can be different)
+.........   33                                              : $2 =    j  (loop index)
+.........   34                                              : $3 = @Z[j]
+.........   35                                              : $A =  Z[j]
+.........   36                                             
+.........   37 [0000] |2101|         lis      $1,      x01  : $1 = 1
+.........   38 [0001] |2E00|         lis      $E,      x00  | ~> Z : 
+.........   39 [0002] |3E00|         lih      $E,      x00  | ~> Z : $E = @Z
+.........   40 [0003] |2D00|         lis      $D,      x00  | ~> Y : 
+.........   41 [0004] |3D00|         lih      $D,      x00  | ~> Y : $D = @Y
+.........   42 [0005] |2C00|         lis      $C,      x00  | ~> X : 
+.........   43 [0006] |3C00|         lih      $C,      x00  | ~> X : $C = @X
+.........   44 [0007] |EBE1|         sub      $B,  $E,  $1  : $B = @Z[-1] = @|Z|
+.........   45 [0008] |BBB0|         l        $B,  $B,  x0  : $B = |Z| = |Y| = |X| = n (by assumption)
+.........   46 [0009] |2F00|         lis      $F,      x00  | ~> VADD : 
+.........   47 [000A] |3F00|         lih      $F,      x00  | ~> VADD : $F = @VADD
+.........   48 [000B] |50FF|         blc      ALL, $F,  $F  | <~ cal : call VADD [	blc	ALL, $F, $F : $F = return address]
+.........   49                                             
+.........   50 [000C] |0000|         sys                 0  | <~ exit : terminate execution
+.........   51                                             
+.........   52                                              : data
+.........   53                                              : array  X
+.........   54 [000D] |0008|                +8    (0x0008)  : |X|
+.........   55 [000E] |0007| X              +7    (0x0007)  : X[0]
+.........   56 [000F] |FFFD|                -3    (0xFFFD)  : X[1]
+.........   57 [0010] |000C|               +12    (0x000C)  : X[2]
+.........   58 [0011] |FFFF|                -1    (0xFFFF)  : X[3]
+.........   59 [0012] |0001|                +1    (0x0001)  : X[4]
+.........   60 [0013] |FFFB|                -5    (0xFFFB)  : X[5]
+.........   61 [0014] |000A|               +10    (0x000A)  : X[6]
+.........   62 [0015] |0000|                +0    (0x0000)  : X[7]
+.........   63                                              : 
+.........   64                                              : array  Y
+.........   65 [0016] |0008|                +8    (0x0008)  : |Y|
+.........   66 [0017] |0000| Y              +0    (0x0000)  : Y[0]
+.........   67 [0018] |000A|               +10    (0x000A)  : Y[1]
+.........   68 [0019] |FFFB|                -5    (0xFFFB)  : Y[2]
+.........   69 [001A] |0008|                +8    (0x0008)  : Y[3]
+.........   70 [001B] |FFFE|                -2    (0xFFFE)  : Y[4]
+.........   71 [001C] |0004|                +4    (0x0004)  : Y[5]
+.........   72 [001D] |FFF5|               -11    (0xFFF5)  : Y[6]
+.........   73 [001E] |FFFF|                -1    (0xFFFF)  : Y[7]
+.........   74                                              : 
+.........   75                                              : array  Z
+.........   76 [001F] |0008|                +8    (0x0008)  : |Z|
+.........   77 [0020] |0000| Z              +0    (0x0000)  : Z[0]
+.........   78 [0021] |0001|                +1    (0x0001)  : Z[1]
+.........   79 [0022] |0002|                +2    (0x0002)  : Z[2]
+.........   80 [0023] |0003|                +3    (0x0003)  : Z[3]
+.........   81 [0024] |0004|                +4    (0x0004)  : Z[4]
+.........   82 [0025] |0005|                +5    (0x0005)  : Z[5]
+.........   83 [0026] |0006|                +6    (0x0006)  : Z[6]
+.........   84 [0027] |0007|                +7    (0x0007)  : Z[7]
+......... 
+.........     Assembly.resolveLocalReferences()
+......... 	at 000E, label: X presumed to be global
+......... 	at 0017, label: Y presumed to be global
+......... 	at 0020, label: Z presumed to be global
+......... end Assembly.resolveLocalReferences()
+......... 
+......... 
+......... Assembling file: VADD/VADD.dos
+.........   85               VADD                           : assigns X[i] + Y[i] to Z[i] for 0 <= i < n    (the assigned subprogram, adapted from VADD_3) 
+.........   86                                             
+.........   87                                              : This subprogram is the last of a sequence of suggested stepping stones to the assigned VADD subprogram
+.........   88                                              : 
+.........   89                                              : VADD_0    :    does nothing                                  (minimal precursor to the assigned VADD subprogram) 
+.........   90                                              : VADD_1    :    prints  Z[i]                for 0 <= i < n    (copied  from VectorAdditionDriver.toy) 
+.........   91                                              : VADD_2    :    prints  Y[i]                for 0 <= i < n    (adapted from VADD_1) 
+.........   92                                              : VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_2) 
+.........   93                                              : VADD      :    assigns X[i] + Y[i] to Z[i] for 0 <= i < n    (the assigned subprogram, adapted from VADD_3) 
+.........   94                                             
+.........   95                                              : VADD subprogram interface
+.........   96                                              : 
+.........   97                                              : label VADD
+.........   98                                              : 
+.........   99                                              : on entry
+.........  100                                              : $1 = 1 (constant)
+.........  101                                              : $B = n = |Z| = |Y| = |X|
+.........  102                                              : $C = @X
+.........  103                                              : $D = @Y
+.........  104                                              : $E = @Z
+.........  105                                              : $F = <return address>
+.........  106                                              : 
+.........  107                                              : on exit
+.........  108                                              : $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
+.........  109                                              : registers: $0, $1, $B, $C, $D, $E and $F have not been changed
+.........  110                                              : the values in registers: $2 .. $A may have been changed
+.........  111                                             
+.........  112                                              : Note
+.........  113                                              : This implementation assumes the "on entry" guarantees of this interface, 
+.........  114                                              : but does NOT fulfill its "on exit" requirements!
+.........  115                                             
+.........  116                                              : subprogram register usage
+.........  117                                              : $2 =    j  (loop index)
+.........  118                                              : $3 = @Z[j]
+.........  119                                              : $A =  Z[j]
+.........  120                                             
+.........  121               VADD                          
+.........  122 [0028] |F200|         add      $2,  $0,  $0  | <~ mov     $2,     $0 : j = $2 = 0
+.........  123               LOOP                          
+.........  124 [0029] |E02B|         sub      $0,  $2,  $B  | <~ cmp     $2,     $B : j ? n
+.........  125 [002A] |1100|         bc       UGE,      +0  | -> DONE | <~ buge            @DONE : 
+.........  126                                              : j < n
+.........  127 [002B] |F3C2|         add      $3,  $C,  $2  : $3 = @X[j]
+.........  128 [002C] |B430|         l        $4,  $3,  x0  : $4 =  X[j]
+.........  129                                             
+.........  130 [002D] |F5D2|         add      $5,  $D,  $2  : $5 = @Y[j]
+.........  131 [002E] |B650|         l        $5,  $5,  x0  : $6 =  Y[j]
+.........  132                                             
+.........  133 [002F] |F746|         add      $7,  $4,  $5  : $7 =  X[i] + Y[i]
+.........  134                                             
+.........  135 [0030] |F8E2|         add      $8,  $E,  $2  : $8 = @Z[j]
+.........  136 [0031] |B980|         l        $9,  $8,  x0  : $9                <--(load)--  Z[j] at address found in $8
+.........  137 [0032] |9790|         st       $7,  $9,  x0  : X[i] + Y[i] = $7  --(store)--> Z[i] at $9
+.........  138 [0033] |BA90|         l        $A,  $9,  x0  : $A                <--(load)-- $9 = X[i] + Y[i] to be written to console. (l vs mov ?)
+.........  139 [0034] |0004|         sys                 4  | <~ write : print Z[j] in command window 
+.........  140                                             
+.........  141 [0035] |F221|         add      $2,  $2,  $1  : j <- j + 1
+.........  142 [0036] |1000|         bc       ALL,      +0  | -> LOOP | <~ b	      @LOOP : repeat loop body
+.........  143               DONE                          
+.........  144 [0037] |50F0|         blc      ALL, $F,  $0  | <~ ret : return to caller [	blc	ALL, $F, $0]
+......... 
+.........     Assembly.resolveLocalReferences()
+......... 	at 0037, local label: DONE
+......... 		is resolved in line:	 125 [002A] |110C|         bc       UGE,     +12  | -> DONE | <~ buge            @DONE : 
+......... 	at 0028, label: VADD presumed to be global
+......... 	at 0029, local label: LOOP
+......... 		is resolved in line:	 142 [0036] |10F2|         bc       ALL,     -14  | -> LOOP | <~ b	      @LOOP : repeat loop body
+......... end Assembly.resolveLocalReferences()
+......... 
+......... 
+......... loading memory image
+......... 
+.........     Assembly.resolveGlobalReferences()
+......... 	at 0028, global label: VADD
+......... 		is resolved in line:	  46 [0009] |2F28|         lis      $F,      x28  | ~> VADD : 
+......... 		is resolved in line:	  47 [000A] |3F00|         lih      $F,      x00  | ~> VADD : $F = @VADD
+......... 	at 000E, global label: X
+......... 		is resolved in line:	  43 [0006] |3C00|         lih      $C,      x00  | ~> X : $C = @X
+......... 		is resolved in line:	  42 [0005] |2C0E|         lis      $C,      x0E  | ~> X : 
+......... 	at 0017, global label: Y
+......... 		is resolved in line:	  41 [0004] |3D00|         lih      $D,      x00  | ~> Y : $D = @Y
+......... 		is resolved in line:	  40 [0003] |2D17|         lis      $D,      x17  | ~> Y : 
+......... 	at 0020, global label: Z
+......... 		is resolved in line:	  39 [0002] |3E00|         lih      $E,      x00  | ~> Z : $E = @Z
+......... 		is resolved in line:	  38 [0001] |2E20|         lis      $E,      x20  | ~> Z : 
+......... end Assembly.resolveGlobalReferences()
+......... 
+......... running
+     7  [0x0007]
+     7  [0x0007]
+     7  [0x0007]
+     7  [0x0007]
+    -1  [0xFFFF]
+    -1  [0xFFFF]
+    -1  [0xFFFF]
+    -1  [0xFFFF]
+......... done

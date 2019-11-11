@@ -35,23 +35,26 @@ VADD_3    :    prints  X[i] + Y[i]         for 0 <= i < n    (adapted from VADD_
 :	 $A =  Z[j]
 
 VADD
-        mov	 $2, $0	      	: j = $2 = 0
+        mov     $2,     $0      : j = $2 = 0
 LOOP
-        cmp	     $2, $B	: j ? n
-        buge         @DONE	:
-                    : j < n
-
-        add	 $3, $D, $2 	: $3 = @Y[j]
-        l   	 $A, $3     	: $A =  Y[j]
-        write	            	: print Y[j] in command window
-
-        add	 $3, $C, $2 	: $3 = @X[j]
-        l   	 $A, $3     	: $A =  X[j]
+        cmp     $2,     $B	    : j ? n
+        buge            @DONE	:
+            : j < n
+        add	    $3, $C, $2      : $3 = @X[j]
+        l       $4,     $3     	: $4 =  X[j]
+        mov	    $A,     $4      : $A =  X[j] to be written to console
         write	            	: print X[j] in command window
 
-        asdf
+        add	    $5, $D, $2      : $5 = @Y[j]
+        l       $6,     $5     	: $6 =  Y[j]
+        mov	    $A,     $6      : $A =  Y[j] to be written to console
+        write	            	: print Y[j] in command window
 
-        add	 $2, $2, $1 	: j <- j + 1
-        b	      @LOOP 	: repeat loop body        
+        add	    $7, $4, $6      : $7 =  X[i] + Y[i]
+        mov	    $A,     $7      : $A =  X[i] + Y[i] to be written to console
+        write	            	: print X[i] + Y[i] in command window
+
+        add     $2, $2, $1 	: j <- j + 1
+        b	      @LOOP 	: repeat loop body
 DONE
         ret	            	: return to caller [	blc	ALL, $F, $0]

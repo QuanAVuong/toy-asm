@@ -16,10 +16,8 @@
 :		(There is no constraint on any register values.)
 :
 : driver register usage (subprogram can be different)
-:		$1 =  @C
+:		$C =  @C
 :		$A =  @C + 1
-
-
 
 
 	: @D = @C+1
@@ -27,12 +25,12 @@
 	lih		$F, @BASICBLOCK 	:	$F = @BASICBLOCK
 	cal							:	call  BASICBLOCK
 	
-	lis		$1,		@C 			:
-	lih		$1,		@C 			:	$1 = @C
-	l		$A, 	$1    		:	$A =  C
+	lis		$C,		@C 			:
+	lih		$C,		@C 			:	$C = @C
+	l		$A, 	$C    		:	$A =  C
 	write	 					:	print C  (5?)
 	
-	l		$A, $1,  1			:	$A =  D
+	l		$A, 	$D			:	$A =  D
 	write	           			:	print D (38?)
 	exit	             		:	normal termination
 

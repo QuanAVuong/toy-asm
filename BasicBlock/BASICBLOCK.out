@@ -1,0 +1,95 @@
+......... Toy [v 0.2 10/5/19] command line: BasicBlock/HW13driver.dos BasicBlock/BASICBLOCK.dos
+......... Assembling file: BasicBlock/HW13driver.dos
+.........    0                                              : BasicBlock subprogram interface
+.........    1                                              : 
+.........    2                                              : label BASICBLOCK
+.........    3                                              : 
+.........    4                                              : on entry
+.........    5                                              : $F = <return address>
+.........    6                                              : $A = @A
+.........    7                                              : $B = @B = @A + 1
+.........    8                                              : $C = @C = @B + 1 = @A + 2
+.........    9                                              : $D = @D = @C + 1 = @B + 2 = @A + 3
+.........   10                                              : 
+.........   11                                              : on exit
+.........   12                                              : C = ( A + B ) & ( A - B )
+.........   13                                              : D = ( A + B ) | ( A - B ) + 17
+.........   14                                              : Memory, except for C and D is unchanged
+.........   15                                              : (There is no constraint on any register values.)
+.........   16                                              : 
+.........   17                                              : driver register usage (subprogram can be different)
+.........   18                                              : $C =  @C
+.........   19                                              : $A =  @C + 1
+.........   20                                             
+.........   21                                             
+.........   22                                              : @D = @C+1
+.........   23 [0000] |2F00|         lis      $F,      x00  | ~> BASICBLOCK : 
+.........   24 [0001] |3F00|         lih      $F,      x00  | ~> BASICBLOCK : $F = @BASICBLOCK
+.........   25 [0002] |50FF|         blc      ALL, $F,  $F  | <~ cal : call  BASICBLOCK
+.........   26                                             
+.........   27 [0003] |2C00|         lis      $C,      x00  | ~> C : 
+.........   28 [0004] |3C00|         lih      $C,      x00  | ~> C : $C = @C
+.........   29 [0005] |BAC0|         l        $A,  $C,  x0  : $A =  C
+.........   30 [0006] |0004|         sys                 4  | <~ write : print C  (5?)
+.........   31                                             
+.........   32 [0007] |BAD0|         l        $A,  $D,  x0  : $A =  D
+.........   33 [0008] |0004|         sys                 4  | <~ write : print D (38?)
+.........   34 [0009] |0000|         sys                 0  | <~ exit : normal termination
+.........   35                                             
+.........   36 [000A] |000D| A             +13    (0x000D) 
+.........   37 [000B] |0008| B              +8    (0x0008) 
+.........   38 [000C] |0000| C              +0    (0x0000) 
+.........   39 [000D] |0000| D              +0    (0x0000) 
+......... 
+.........     Assembly.resolveLocalReferences()
+......... 	at 000A, label: A presumed to be global
+......... 	at 000B, label: B presumed to be global
+......... 	at 000C, label: C presumed to be global
+......... 	at 000D, label: D presumed to be global
+......... end Assembly.resolveLocalReferences()
+......... 
+......... 
+......... Assembling file: BasicBlock/BASICBLOCK.dos
+.........   40                                              : BASICBLOCK subprogram interface
+.........   41                                              : 
+.........   42                                              : label BASICBLOCK
+.........   43                                              : 
+.........   44                                              : on entry
+.........   45                                              : $F = <return address>
+.........   46                                              : $A = @A
+.........   47                                              : $B = @B = @A + 1
+.........   48                                              : $C = @C = @B + 1 = @A + 2
+.........   49                                              : $D = @D = @C + 1 = @B + 2 = @A + 3
+.........   50                                              : 
+.........   51                                              : on exit
+.........   52                                              : C = ( A + B ) & ( A - B )
+.........   53                                              : D = ( A + B ) | ( A - B ) + 17
+.........   54                                              : Memory, except for C and D is unchanged
+.........   55                                              : (There is no constraint on any register values.)
+.........   56                                              : 
+.........   57                                              : driver register usage (subprogram can be different)
+.........   58                                              : $1 =  @A
+.........   59                                              : $A =  @C + 1
+.........   60                                             
+.........   61               BASICBLOCK                      
+.........   62 [000E] |2100|         lis      $1,      x00  | ~> A : 
+.........   63 [000F] |3100|         lih      $1,      x00  | ~> A : $1 = @A
+.........   64 [0010] |B210|         l        $2,  $1,  x0  : $2 =  A	
+.........   65                                             
+.........   66 [0011] |2300|         lis      $3,      x00  | ~> B : 
+.........   67 [0012] |3300|         lih      $3,      x00  | ~> B : $3 = @B
+.........   68 [0013] |B430|         l        $4,  $3,  x0  : $4 =  B
+.........   69                                             
+.........   70 [0014] |F524|         add      $5,  $2,  $4  : $5 =  A + B
+.........   71 [0015] |E624|         sub      $5,  $2,  $4  : $6 =  A - B
+.........   72                                             
+.........   73 [0016] |D756|         and      $7,  $5,  $5  : $7 <- ( A + B ) & ( A - B )
+.........   74 [0017] |97C0|         st       $7,  $C,  x0  : C = ( A + B ) & ( A - B )
+.........   75                                             
+.........   76 [0018] |BDC1|         l        $D,  $C,  x1  : $D <- @D = @C + 1
+.........   77                                             
+.........   78 [0019] |2811|         lis      $8,      x11  : $1 = 17
+.........   79 [001A] |C956|         nor      $9,  $5,  $5  : ( A + B ) NOR ( A - B )
+.........   80 [001B] |C990|         nor      $9,  $9,  $0  : $9 <- ( A + B ) | ( A - B ) = (( A + B ) NOR ( A - B )) NOR 0
+.........   81 [001C] |99D0|         st       $9,  $D,  x0  : D = ( A + B ) | ( A - B )
+.........   82                                             

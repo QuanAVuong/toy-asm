@@ -3,37 +3,39 @@
 : label BASICBLOCK
 :
 : on entry
-:	 $1 = 1 (constant)
-:	 $B = n = |Z| = |Y| = |X|
-:	 $C = @X
-:	 $D = @Y
-:	 $E = @Z
-:	 $F = <return address>
+:		$F = <return address>
+:		$A = @A
+:		$B = @B = @A + 1
+:		$C = @C = @B + 1 = @A + 2
+:		$D = @D = @C + 1 = @B + 2 = @A + 3
 :
 : on exit
-:	 $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
-:	 registers: $0, $1, $B, $C, $D, $E and $F have not been changed
-:	 the values in registers: $2 .. $A may have been changed
-
+:		C = ( A + B ) & ( A - B )
+:		D = ( A + B ) | ( A - B ) + 17
+:		Memory, except for C and D is unchanged
+:		(There is no constraint on any register values.)
+:
 : driver register usage (subprogram can be different)
-: 	 $2 =    j  (loop index)
-:	 $3 = @Z[j]
-:	 $A =  Z[j]
+:		$1 =  @C
+:		$A =  @C + 1
 
 
 
 
 	: @D = @C+1
-	lis  	 $F, @BASICBLOCK  	: 
-	lih  	 $F, @BASICBLOCK 	:	$F = @BASICBLOCK
-	cal  	           	:	call  BASICBLOCK
-	lis  	 $1,    @C 	:
-	lih  	 $1,    @C 	:	$1 = @C
-	l	 $A, $1    	:	$A =  C
-	write	 		:	print C  (5?)
-	l 	 $A, $1,  1	:	$A =  D
-	write	           	:	print D (38?)
-	exit	             	:	normal termination
+	lis		$F, @BASICBLOCK  	: 
+	lih		$F, @BASICBLOCK 	:	$F = @BASICBLOCK
+	cal							:	call  BASICBLOCK
+	
+	lis		$1,		@C 			:
+	lih		$1,		@C 			:	$1 = @C
+	l		$A, 	$1    		:	$A =  C
+	write	 					:	print C  (5?)
+	
+	l		$A, $1,  1			:	$A =  D
+	write	           			:	print D (38?)
+	exit	             		:	normal termination
+
 A	13
 B	 8
 C	 0

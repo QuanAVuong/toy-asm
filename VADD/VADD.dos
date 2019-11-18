@@ -57,4 +57,4 @@ LOOP
         add     $2, $2, $1 	: j <- j + 1
         b	      @LOOP 	: repeat loop body
 DONE
-        ret	            	: return to caller [	blc	ALL, $F, $0]
+        ret                     : return to caller [	blc	ALL, $F, $0]

@@ -1,0 +1,40 @@
+: BasicBlock subprogram interface
+:
+: label BASICBLOCK
+:
+: on entry
+:	 $1 = 1 (constant)
+:	 $B = n = |Z| = |Y| = |X|
+:	 $C = @X
+:	 $D = @Y
+:	 $E = @Z
+:	 $F = <return address>
+:
+: on exit
+:	 $Z[i] = X[i] + Y[i] for 0 <= i < n, otherwise, memory is unchanged
+:	 registers: $0, $1, $B, $C, $D, $E and $F have not been changed
+:	 the values in registers: $2 .. $A may have been changed
+
+: driver register usage (subprogram can be different)
+: 	 $2 =    j  (loop index)
+:	 $3 = @Z[j]
+:	 $A =  Z[j]
+
+
+
+
+	: @D = @C+1
+	lis  	 $F, @BASICBLOCK  	: 
+	lih  	 $F, @BASICBLOCK 	:	$F = @BASICBLOCK
+	cal  	           	:	call  BASICBLOCK
+	lis  	 $1,    @C 	:
+	lih  	 $1,    @C 	:	$1 = @C
+	l	 $A, $1    	:	$A =  C
+	write	 		:	print C  (5?)
+	l 	 $A, $1,  1	:	$A =  D
+	write	           	:	print D (38?)
+	exit	             	:	normal termination
+A	13
+B	 8
+C	 0
+D	 0

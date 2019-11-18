@@ -1,0 +1,15 @@
+	: @D = @C+1
+	lis  	 $F, @HW13  	: 
+	lih  	 $F, @HW13 	:	$F = @HW13
+	cal  	           	:	call  HW13
+	lis  	 $1,    @C 	:
+	lih  	 $1,    @C 	:	$1 = @C
+	l	 $A, $1    	:	$A =  C
+	write	 		:	print C  (5?)
+	l 	 $A, $1,  1	:	$A =  D
+	write	           	:	print D (38?)
+	exit	             	:	normal termination
+A	13
+B	 8
+C	 0
+D	 0

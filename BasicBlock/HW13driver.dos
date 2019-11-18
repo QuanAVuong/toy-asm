@@ -17,7 +17,7 @@
 :
 : driver register usage (subprogram can be different)
 :		$C =  @C
-:		$A =  @C + 1
+:		$D =  @C + 1
 
 
 	: @D = @C+1

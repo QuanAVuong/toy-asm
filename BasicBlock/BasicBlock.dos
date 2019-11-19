@@ -32,6 +32,9 @@ BASICBLOCK
 	sub		$6, $2,	$4    	:	$6 =  A - B
 
 	and		$7, $5,	$6    	:	$7 <- ( A + B ) & ( A - B )
+
+	lis		$C,		@C		:
+	lih		$C,		@C		:	$C = @C	
 	st		$7, $C,  0    	:	C = ( A + B ) & ( A - B )
 	
 	l		$D, $C,  1		:	$D <- @D = @C + 1

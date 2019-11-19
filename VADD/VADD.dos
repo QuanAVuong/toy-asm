@@ -31,7 +31,10 @@ VADD      :    assigns X[i] + Y[i] to Z[i] for 0 <= i < n    (the assigned subpr
 
 : subprogram register usage
 : 	 $2 =    j  (loop index)
-:	 $3 = @Z[j]
+:	 $3, $4 = @X[j], X[j]
+:	 $5, $6 = @Y[j], Y[j]
+:	 $7     = X[j] + Y[j]
+:	 $8     = @Z[j]
 :	 $A =  Z[j]
 
 VADD
@@ -46,12 +49,11 @@ LOOP
         add     $5, $D, $2      : $5 = @Y[j]
         l       $6,     $5     	: $6 =  Y[j]
 
-        add     $7, $4, $6      : $7 =  X[i] + Y[i]
+        add     $7, $4, $6      : $7 =  X[j] + Y[j]
 
         add     $8, $E, $2      : $8 = @Z[j]
-        l       $9,     $8     	: $9                <--(load)--  Z[j] at address found in $8
-        st      $7,     $9     	: X[i] + Y[i] = $7  --(store)--> Z[i] at $9
-        l       $A,     $9     	: $A                <--(load)-- $9 = X[i] + Y[i] to be written to console. (l vs mov ?)
+        st      $7,     $8     	: X[j] + Y[j] = $7  --(store)--> @Z[j] at $8
+        l       $A,     $8     	: $A                <--(load)-- Z[j] to be written to console
         write                   : print Z[j] in command window 
 
         add     $2, $2, $1 	: j <- j + 1
